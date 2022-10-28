@@ -4,7 +4,6 @@ const ApiError = require("../exceptions/api-error");
 
 class Usercontroller {
    async registration(req, res, next) {
-      console.log("reg");
       try {
          const errors = validationResult(req);
          if (!errors.isEmpty()) {
@@ -13,8 +12,16 @@ class Usercontroller {
             );
          }
 
-         const { email, password } = req.body;
-         const userData = await userSerivce.registration(email, password);
+         const { email, password, phone, date, name, surname } = req.body;
+
+         const userData = await userSerivce.registration(
+            email,
+            password,
+            phone,
+            name,
+            surname,
+            date
+         );
          res.cookie("refreshToken", userData.refreshToken, {
             maxAge: 30 * 24 * 60 * 60 * 1000,
             httpOnly: true,

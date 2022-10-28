@@ -7,7 +7,7 @@ const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-error");
 
 class UserService {
-   async registration(email, password) {
+   async registration(email, password, phone, name, surname, date) {
       const candidate = await UserModel.findOne({ email }); // проверка существования пользователя
 
       // если пользователь есть
@@ -21,6 +21,10 @@ class UserService {
       const user = await UserModel.create({
          email,
          password: hashPassword,
+         phone,
+         name,
+         surname,
+         date,
          activationLink,
       });
 
@@ -29,7 +33,7 @@ class UserService {
          `${process.env.API_URL}/api/activate/${activationLink}`
       );
 
-      const userDto = new UserDto(user); // id, email, isActivated
+      const userDto = new UserDto(user); // id, email, isActivated, name, surname, phone, data
 
       const tokens = tokenService.generateTokens({ ...userDto }); // spread because generateTokens expects regular object
       await tokenService.saveToken(userDto.id, tokens.refreshToken);
