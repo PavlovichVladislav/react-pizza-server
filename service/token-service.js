@@ -17,11 +17,11 @@ class TokenService {
    }
 
    async saveToken(userId, refreshToken) {
-      const tokenData = await tokenModel.findOne({ user: userId }); // перед сохранением, попробуем найти токен для пользователя
+      const tokenData = await tokenModel.findOne({ user: userId });
 
       if (tokenData) {
          tokenData.refreshToken = refreshToken;
-         return tokenData.save(); // ф-я, которая обновит рефреш токен в БД
+         return tokenData.save();
       }
 
       const token = await tokenModel.create({ user: userId, refreshToken });
