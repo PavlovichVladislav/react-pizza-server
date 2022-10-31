@@ -20,9 +20,9 @@ class OrderController {
 
    async acceptOrder(req, res, next) {
       try {
-         const { email } = req.body;
+         const { id } = req.body;
 
-         const orderData = await orderService.acceptOrder(email);
+         const orderData = await orderService.acceptOrder(id);
 
          return res.json(orderData);
       } catch (e) {
@@ -32,6 +32,11 @@ class OrderController {
 
    async getAllOrders(req, res, next) {
       try {
+         let orders = await orderService.getAllOrders();
+
+         orders = orders.filter((order) => order.isAccepted === false);
+
+         return res.json(orders);
       } catch (e) {
          next(e);
       }
@@ -39,6 +44,11 @@ class OrderController {
 
    async getUserOrders(req, res, next) {
       try {
+         const { email } = req.body;
+
+         const userOrders = await orderService.getUserOrders(email);
+
+         return res.json(userOrders);
       } catch (e) {
          next(e);
       }

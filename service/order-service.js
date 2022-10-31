@@ -14,8 +14,8 @@ class OrderService {
       return order;
    }
 
-   async acceptOrder(email) {
-      const order = await OrderModel.findOne({ email });
+   async acceptOrder(_id) {
+      const order = await OrderModel.findOne({ _id });
 
       if (!order) {
          throw ApiError.BadRequest("Заказ отсутствует в базе данных");
@@ -27,6 +27,20 @@ class OrderService {
       await order.save();
 
       return order;
+   }
+
+   async getAllOrders() {
+      const orders = await OrderModel.find();
+
+      console.log(orders);
+
+      return orders;
+   }
+
+   async getUserOrders(email) {
+      const userOrders = await OrderModel.find({ email });
+
+      return userOrders;
    }
 }
 
