@@ -46,7 +46,14 @@ class OrderController {
       try {
          const { email } = req.body;
 
-         const userOrders = await orderService.getUserOrders(email);
+         let userOrders = await orderService.getUserOrders(email);
+
+         userOrders = userOrders.map((order) => {
+            return {
+               orderItems: order.orderItems,
+               isAccepted: order.isAccepted,
+            };
+         });
 
          return res.json(userOrders);
       } catch (e) {

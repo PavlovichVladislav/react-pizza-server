@@ -19,8 +19,8 @@ router.get("/activate/:link", userController.activate); // активация а
 router.get("/refresh", userController.refresh); // перезапись access токена, в случае если он умер
 
 router.post("/makeOrder", orderController.makeOrder);
-router.post("/acceptOrder", authMiddleware, orderController.acceptOrder);
-router.get("/getOrders", authMiddleware, orderController.getAllOrders);
-router.get("/getUserOrders", authMiddleware, orderController.getUserOrders);
+router.post("/acceptOrder", orderController.acceptOrder);
+router.get("/getOrders", orderController.getAllOrders);
+router.post("/getUserOrders", orderController.getUserOrders);
 
 module.exports = router;
